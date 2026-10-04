@@ -34,7 +34,7 @@ Users and roles:
 | User | Password | Roles |
 |------|----------|-------|
 | alice | alice123 | user |
-| bob | bob123 | user, admin |
+| madhabdhital78 | Madhab@2003 | user, admin |
 
 These are development-only credentials. The Keycloak admin console login is `admin` / `admin`.
 
