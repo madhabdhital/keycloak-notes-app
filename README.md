@@ -4,7 +4,7 @@ A small Notes application that implements Keycloak authentication end to end: lo
 
 The notes themselves are not the point. They exist so there is something worth protecting. A normal user can create, view and delete their own notes. An admin can additionally see every user's notes and delete any of them.
 
-Repository: `https://github.com/<your-username>/keycloak-notes-app`
+Repository: `https://github.com/madhabdhital/keycloak-notes-app`
 
 ---
 
@@ -34,7 +34,7 @@ Users and roles:
 | User | Password | Roles |
 |------|----------|-------|
 | alice | alice123 | user |
-| madhabdhital78 | Madhab@2003 | user, admin |
+| madhabdhital78 | admin123 | user, admin |
 
 These are development-only credentials. The Keycloak admin console login is `admin` / `admin`.
 
@@ -75,7 +75,7 @@ Everything lives in the realm `notes-realm`. I did not use the built-in `master`
 
 **Realm roles:** `user` and `admin`.
 
-**Users:** `alice` (role `user`) and `bob` (roles `user` and `admin`). Both have complete profiles (email, first and last name) and non-temporary passwords. Keycloak 26 can refuse to log in a user whose profile is incomplete.
+**Users:** `alice` (role `user`) and `madhabdhital78` (roles `user` and `admin`). Both have complete profiles (email, first and last name) and non-temporary passwords. Keycloak 26 can refuse to log in a user whose profile is incomplete.
 
 **Realm roles in the token.** Keycloak places realm roles in the access token under `realm_access.roles`. The backend reads them from there.
 
@@ -191,7 +191,7 @@ The order matters. Spring uses the first matching rule, so the more specific `/a
 **1. Clone the repository**
 
 ```
-git clone https://github.com/<your-username>/keycloak-notes-app.git
+git clone https://github.com/madhabdhital/keycloak-notes-app.git
 cd keycloak-notes-app
 ```
 
@@ -223,7 +223,7 @@ npm run dev -- --port 5173 --strictPort
 
 Port 5173 is fixed because it is the only origin registered in Keycloak and allowed by CORS.
 
-**5. Use it.** Open `http://localhost:5173` and log in as `alice` / `alice123` or `bob` / `bob123`.
+**5. Use it.** Open `http://localhost:5173` and log in as `alice` / `alice123` or `madhabdhital78` / `admin123`.
 
 **Stopping.** `docker compose down` stops the containers and keeps the data. `docker compose down -v` also deletes the volumes, which resets Keycloak (it is re-imported from `notes-realm.json`) and empties the notes.
 
@@ -242,10 +242,10 @@ All tests were done manually in the browser, with the database checked directly.
 | 5 | Alice adds notes | Notes appear in her list and in the `note` table with `owner_username = alice` | Passed |
 | 6 | Alice calls `/api/admin/notes` | 403 | Passed |
 | 7 | Alice's page has no admin section | Admin card not shown | Passed |
-| 8 | Log in as bob | Roles `user` and `admin`, yellow admin badge | Passed |
-| 9 | Bob's "My notes" | Empty, because notes belong to their owner | Passed |
-| 10 | Bob's admin list | Shows alice's notes | Passed |
-| 11 | Bob deletes alice's note from the admin list | Note disappears, row removed from the database | Passed |
+| 8 | Log in as madhabdhital78 (the admin user) | Roles `user` and `admin`, yellow admin badge | Passed |
+| 9 | Admin user's "My notes" | Empty, because notes belong to their owner | Passed |
+| 10 | Admin user's admin list | Shows alice's notes | Passed |
+| 11 | Admin user deletes alice's note from the admin list | Note disappears, row removed from the database | Passed |
 | 12 | Logout | Returns to the login screen, protected calls need a new login | Passed |
 | 13 | Fresh start: `docker compose down -v`, then `up -d` | Realm, client, roles and both users are recreated from `notes-realm.json`, logins work | Passed |
 
